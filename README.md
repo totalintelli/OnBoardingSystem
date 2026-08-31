@@ -27,8 +27,8 @@ data/docs/*.md (더미 규정 문서)
 
 - [x] 더미 사내 규정 문서 6종 (`data/docs/`)
 - [x] RAG 검색 모듈 (`rag.py`) — 문서 청크 임베딩, 코사인 유사도 검색
-- [ ] 로컬 LLM 답변 생성 모듈 (`llm.py`)
-- [ ] Streamlit 채팅 UI (`app.py`)
+- [x] 로컬 LLM 답변 생성 모듈 (`llm.py`) — 유사도 임계값 미달 시 fallback
+- [x] Streamlit 채팅 UI (`app.py`) — 답변과 참조 문서 출처 표시
 
 ## 실행 방법
 
@@ -38,10 +38,16 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-`llm.py`, `app.py` 구현 완료 후 다음 명령으로 실행한다 (아직 구현 전):
-
 ```bash
 streamlit run app.py
+```
+
+브라우저에서 `http://localhost:8501`이 열린다. 최초 실행 시 임베딩·생성 모델을 로컬에 내려받으므로 몇 분이 소요될 수 있으며, 이후로는 캐시된 모델을 사용한다.
+
+파이프라인(검색 → 답변 생성)이 정상 동작하는지만 빠르게 확인하려면:
+
+```bash
+python pipeline_check.py
 ```
 
 ## 사용 모델
