@@ -29,7 +29,7 @@ class Retriever:
         texts = [c["text"] for c in chunks]
         self.embeddings = self.model.encode(texts, normalize_embeddings=True)
 
-    def search(self, query: str, top_k: int = 3) -> list[dict]:
+    def search(self, query: str, top_k: int = 2) -> list[dict]:
         query_vec = self.model.encode([query], normalize_embeddings=True)[0]
         scores = self.embeddings @ query_vec
         top_indices = np.argsort(scores)[::-1][:top_k]

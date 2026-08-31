@@ -44,5 +44,6 @@ class AnswerGenerator:
         generated = output_ids[0][inputs["input_ids"].shape[1]:]
         answer = self.tokenizer.decode(generated, skip_special_tokens=True)
 
-        sources = sorted({c["source"] for c in contexts})
-        return {"answer": answer.strip(), "sources": sources}
+        # 프롬프트가 "가장 관련된 조각 하나만 골라 답하라"고 지시하므로,
+        # 출처도 유사도 1순위 조각의 문서만 표시한다.
+        return {"answer": answer.strip(), "sources": [contexts[0]["source"]]}
