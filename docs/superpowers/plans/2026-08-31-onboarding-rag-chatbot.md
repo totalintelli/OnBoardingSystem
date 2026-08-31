@@ -1,5 +1,12 @@
 # 신입사원 온보딩 규정 안내 챗봇 Implementation Plan
 
+> **이 문서는 구현 착수 전에 작성한 계획이며, 실행 기록으로 그대로 보존한다.** 실제 구현 과정에서 실측을 근거로 다음 항목이 계획과 달라졌다. 최신 설계는 [설계 스펙](../specs/2026-08-31-onboarding-rag-chatbot-design.md)을, 사용법은 [README](../../../README.md)를 참고한다.
+>
+> - **검색 top_k**: 3 → 2. 조각이 여러 개 넘어가면 1.5B 모델이 서로 다른 조건의 숫자를 뒤섞는 현상이 반복 확인됨
+> - **출처 표시**: 검색된 전체 문서 → 유사도 1순위 문서 하나. 프롬프트가 "조각 하나만 골라 답하라"고 지시하는 것과 일치시킴
+> - **`rag.py` 테스트**: 절대 임계값 검증 테스트(`score < 0.5`) 제거. 이 임베딩 모델은 무관한 문장에도 0.9대를 반환해 절대 임계값이 성립하지 않음
+> - **프롬프트**: "문서 문구 그대로 인용, 계산·추론 금지, 가장 관련된 조각 하나만 선택" 지시를 추가해 환각을 억제
+>
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 신입 직원이 사내 규정을 질문하면 관련 규정 문서를 검색해 근거 기반으로 답변하고 출처를 표시하는 Streamlit 챗봇 프로토타입을 만든다.
