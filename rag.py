@@ -14,7 +14,9 @@ def load_chunks(docs_dir: str) -> list[dict]:
         source = os.path.basename(path)
         with open(path, encoding="utf-8") as f:
             content = f.read()
-        sections = re.split(r"\n(?=## )", content)
+        # 첫 조각은 "# 문서 제목"만 담긴 본문 없는 조각이라 버린다.
+        # 이 조각이 검색되면 모델이 근거 없이 답을 지어내는 원인이 된다.
+        _, *sections = re.split(r"\n(?=## )", content)
         for section in sections:
             text = section.strip()
             if text:
